@@ -1,0 +1,129 @@
+.hero {
+  padding: 6rem 0;
+  min-height: min(80vh, 50rem);
+  display: flex;
+  align-items: center;
+}
+
+/* Entrada em cascata: título → texto → botões → chips → imagem */
+.hero-entra {
+  animation: fadeInUp 0.8s var(--ease-fluida) both;
+}
+
+.hero-text .hero-entra:nth-child(1),
+.hero-text h1.hero-entra {
+  animation-delay: 0.05s;
+}
+
+.hero-text p.hero-entra {
+  animation-delay: 0.18s;
+}
+
+.hero-buttons.hero-entra {
+  animation-delay: 0.32s;
+}
+
+.features.hero-entra {
+  animation-delay: 0.46s;
+}
+
+.hero-image.hero-entra {
+  animation-delay: 0.25s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-entra {
+    animation: none;
+  }
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(18rem, 1fr));
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.hero-text > p {
+  font-size: 1.125rem;
+  color: var(--muted);
+  margin-bottom: 1.875rem;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-bottom: 1.875rem;
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 30px;
+}
+
+.hero-fallback {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--primary), var(--dark-alt));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  color: #fff;
+}
+
+.features {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.feature-card {
+  background: var(--bg-soft);
+  padding: 0.9rem 1.25rem;
+  border-radius: 15px;
+  font-weight: 500;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-card);
+  background: var(--bg-alt);
+}
+
+.hero-image img {
+  transition: transform 0.6s var(--ease-fluida);
+}
+
+.hero-image:hover img,
+.hero-image:hover .hero-fallback {
+  transform: scale(1.02) translateY(-4px);
+}
+
+.hero-fallback {
+  transition: transform 0.6s var(--ease-fluida);
+}
+
+@media (max-width: 900px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
