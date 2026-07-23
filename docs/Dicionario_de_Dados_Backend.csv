@@ -1,0 +1,49 @@
+,,,,,,
+,ENTIDADE: PESSOA,,,,,
+,Campo,Tipo de Dado,Tamanho/Limites,Obrigatório,Relacionamento/Chave,Descrição/Regras
+,id,BigAutoField (Inteiro),-,Sim,Chave Primária (PK),Identificador único automático.
+,nome,CharField (Texto),Máx 200,Sim,-,Nome completo ou razão social.
+,email,EmailField (E-mail),-,Sim,-,Identificador de contato. Deve ser único (unique=True).
+,telefone,CharField (Texto),Máx 20,Não,-,10 a 15 dígitos. Validado via Regex.
+,estado,CharField (Texto),Máx 2,Não,-,Sigla da UF (ex: SP).
+,cidade,CharField (Texto),Máx 100,Não,-,Nome do município.
+,criado_em,DateTimeField (Data/Hora),-,Sim,-,Automático na criação (auto_now_add).
+,atualizado_em,DateTimeField (Data/Hora),-,Sim,-,Automático na atualização (auto_now).
+,,,,,,
+,ENTIDADE: PESSOA FISICA,,,,,
+,Campo,Tipo de Dado,Tamanho/Limites,Obrigatório,Relacionamento/Chave,Descrição/Regras
+,pessoa_id,OneToOneField,-,Sim,PK / FK (Pessoa),Ligação 1:1 com Pessoa (Cascade).
+,cpf,CharField (Texto),Máx 14,Não,-,Formato validado por Regex. Único se preenchido.
+,data_nascimento,DateField (Data),-,Não,-,Data de nascimento.
+,tipo_deficiencia,CharField (Texto),Máx 100,Não,-,Descrição da deficiência motora.
+,perfil,CharField (Texto),Máx 20,Sim,-,"Escolha (paciente, familiar, cuidador). Padrão: paciente."
+,comunicacao_verbal_preservada,BooleanField (Booleano),-,Sim,-,Padrão: True.
+,,,,,,
+,ENTIDADE: PESSOA JURIDICA,,,,,
+,Campo,Tipo de Dado,Tamanho/Limites,Obrigatório,Relacionamento/Chave,Descrição/Regras
+,pessoa_id,OneToOneField,-,Sim,PK / FK (Pessoa),Ligação 1:1 com Pessoa (Cascade).
+,cnpj,CharField (Texto),Máx 18,Não,-,Formato validado por Regex. Único se preenchido.
+,tipo_instituicao,CharField (Texto),Máx 30,Sim,-,"Escolha (clinica, hospital, ong, outro). Padrão: clinica."
+,contato_responsavel,CharField (Texto),Máx 200,Não,-,Nome do responsável pelo contato.
+,cargo_responsavel,CharField (Texto),Máx 100,Não,-,Cargo do responsável.
+,,,,,,
+,ENTIDADE: MODELO,,,,,
+,Campo,Tipo de Dado,Tamanho/Limites,Obrigatório,Relacionamento/Chave,Descrição/Regras
+,id,BigAutoField (Inteiro),-,Sim,Chave Primária (PK),Identificador único automático.
+,nome_modelo,CharField (Texto),Máx 100,Sim,-,Chave única conjunta com marca (unique_together).
+,marca,CharField (Texto),Máx 100,Sim,-,Chave única conjunta com nome_modelo (unique_together).
+,motorizada,BooleanField (Booleano),-,Sim,-,Padrão: False.
+,criado_em,DateTimeField (Data/Hora),-,Sim,-,Automático na criação.
+,,,,,,
+,ENTIDADE: INTERESSE,,,,,
+,Campo,Tipo de Dado,Tamanho/Limites,Obrigatório,Relacionamento/Chave,Descrição/Regras
+,id,BigAutoField (Inteiro),-,Sim,Chave Primária (PK),Identificador do lead/registro de interesse.
+,pessoa_id,ForeignKey,-,Sim,FK (Pessoa),Cliente que demonstrou interesse (N:1). Cascade.
+,modelo_id,ForeignKey,-,Sim,FK (Modelo),Modelo alvo do interesse (N:1). Cascade.
+,data_hora,DateTimeField (Data/Hora),-,Sim,-,Automático na criação do lead.
+,quantidade_estimada,PositiveIntegerField (Inteiro),Mínimo 1,Sim,-,Padrão: 1.
+,mensagem,TextField (Texto Longo),-,Não,-,Observações complementares orgânicas.
+,origem,CharField (Texto),Máx 20,Sim,-,"Como nos conheceu? Escolha (google, instagram, facebook, indicacao, evento, outro). Padrão: outro."
+,status_lead,CharField (Texto),Máx 20,Sim,-,"Escolha (novo, contatado, etc). Padrão: novo."
+,aceite_termos,BooleanField (Booleano),-,Sim,-,Proteção LGPD. Padrão: False.
+,possui_cadeira,BooleanField (Booleano),-,Sim,-,Padrão: False.
