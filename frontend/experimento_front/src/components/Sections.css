@@ -1,0 +1,128 @@
+/* Estilos compartilhados das seções estáticas (referência visual da landing) */
+
+.technology {
+  background: var(--bg-alt);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(12rem, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  counter-reset: passo;
+}
+
+.step {
+  background: #fff;
+  padding: 1.875rem;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.step-numero {
+  width: 3.125rem;
+  height: 3.125rem;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.9rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.step h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  color: var(--muted);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(10rem, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+}
+
+.stat-card {
+  padding: 2.5rem;
+  background: #fff;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h3 {
+  font-size: 2.6rem;
+  color: var(--primary);
+}
+
+.impact {
+  background: var(--bg-soft);
+}
+
+.impact-text {
+  max-width: 46rem;
+  margin: 3rem auto 0;
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--muted);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(14rem, 1fr));
+  gap: 1.875rem;
+}
+
+.cards-3 {
+  grid-template-columns: repeat(3, minmax(11rem, 1fr));
+}
+
+.audience-card {
+  background: var(--bg-soft);
+  padding: 2.5rem;
+  border-radius: 25px;
+}
+
+.differentials .audience-card,
+.team .audience-card {
+  background: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.differentials {
+  background: var(--bg-alt);
+}
+
+.audience-card h3 {
+  margin-bottom: 1.25rem;
+}
+
+.audience-card ul {
+  margin-bottom: 1.5rem;
+  padding-left: 1.25rem;
+}
+
+.audience-card li {
+  margin-bottom: 0.6rem;
+}
+
+.lista-comparativa {
+  list-style: none;
+  padding-left: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .steps,
+  .stats,
+  .cards,
+  .cards-3 {
+    grid-template-columns: 1fr;
+  }
+}

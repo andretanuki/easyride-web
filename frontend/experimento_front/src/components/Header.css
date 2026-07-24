@@ -1,0 +1,142 @@
+.cabecalho {
+  background: #fff;
+  padding: 1.25rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--primary);
+  text-decoration: none;
+  transition: opacity var(--dur-rapida) var(--ease-suave);
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.cabecalho nav {
+  display: flex;
+  gap: 1.875rem;
+}
+
+.cabecalho nav a {
+  text-decoration: none;
+  color: #111827;
+  font-weight: 500;
+  font-size: 1rem;
+  position: relative;
+  padding: 0.25rem 0;
+  transition: color var(--dur-rapida) var(--ease-suave);
+}
+
+/* Sublinhado que desliza da esquerda no hover/foco */
+.cabecalho nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-media) var(--ease-fluida);
+}
+
+.cabecalho nav a:hover,
+.cabecalho nav a:focus-visible {
+  color: var(--primary);
+}
+
+.cabecalho nav a:hover::after,
+.cabecalho nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--border-input);
+  border-radius: 8px;
+  font-size: 1.5rem;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  color: var(--dark);
+  transition:
+    background-color var(--dur-rapida) var(--ease-suave),
+    transform var(--dur-rapida) var(--ease-fluida);
+}
+
+.menu-toggle:hover {
+  background: var(--bg-soft);
+}
+
+.menu-toggle:active {
+  transform: scale(0.94);
+}
+
+@keyframes menu-desliza {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* em (não px): a media query acompanha o aumento de fonte da
+   AccessibilityToolbar, antecipando o menu hambúrguer em vez de deixar
+   o nav quebrar em várias linhas dentro do .navbar */
+@media (max-width: 56.25em) {
+  .navbar {
+    /* Rede de segurança: com o nav desktop oculto, só logo + hambúrguer +
+       CTA disputam espaço; em telas muito estreitas com fonte grande,
+       o CTA pode ainda assim precisar descer para uma segunda linha. */
+    flex-wrap: wrap;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .cabecalho nav {
+    display: none;
+  }
+
+  .cabecalho nav.aberto {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 1.25rem 5%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    gap: 1rem;
+    animation: menu-desliza 0.3s var(--ease-fluida) both;
+  }
+
+  /* No menu vertical o sublinhado ocupa só o texto */
+  .cabecalho nav.aberto a {
+    align-self: flex-start;
+  }
+}
