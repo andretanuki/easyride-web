@@ -15,5 +15,7 @@ e gestão de leads do Programa Piloto.
 *(a ser preenchido pela equipe)*
 
 ## Equipe
-*(a ser preenchido pela equipe)*
-André Luís - Desenvolvedor Back-End - [GitHub](https://github.com/andretanuki) | [LinkedIn](https://www.linkedin.com/in/andretanuki/)
+- **André Luís** - Desenvolvedor Back-End - [GitHub](https://github.com/andretanuki) | [LinkedIn](https://www.linkedin.com/in/andretanuki/)
+- **Flávia Rocha** - Desenvolvedora Front-End - [GitHub]( a ser preenchido pela equipe) | [LinkedIn](a ser preenchido pela equipe)
+- **Flávia Sena** - Desenvolvedora Back-End - [GitHub]( a ser preenchido pela equipe) | [LinkedIn](a ser preenchido pela equipe)
+- **Dafne Santos** - Desenvolvedora Front-End - [GitHub]( a ser preenchido pela equipe) | [LinkedIn](a ser preenchido pela equipe)
