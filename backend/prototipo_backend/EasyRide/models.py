@@ -44,6 +44,14 @@ class Pessoa(models.Model):
             models.Index(fields=['-criado_em'], name='idx_pessoa_criado'),
         ]
 
+    def save(self, *args, **kwargs):
+        # Normaliza o e-mail para minúsculas em qualquer via de escrita
+        # (API, admin, shell): o unique é case-sensitive no banco, e sem
+        # isso "E@mail.com" e "e@mail.com" gerariam dois leads distintos.
+        if self.email:
+            self.email = self.email.strip().lower()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.nome} ({self.email})'
 

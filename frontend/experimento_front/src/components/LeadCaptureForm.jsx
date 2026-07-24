@@ -4,7 +4,7 @@ import './LeadCaptureForm.css';
 
 /*
  * LeadCaptureForm (Arquitetura 1.2.1)
- * Props: origem (ex.: "hero", "popup", "whatsapp"), campanhaId
+ * Props: origem (ex.: "hero", "popup", "whatsapp")
  * POST /api/leads/ com payload polimórfico (Atualizacao_Contrato_API.md):
  * tipo_pessoa FISICA -> dados_fisica | JURIDICA -> dados_juridica, + interesse.
  * Estados: Inicial / Carregando / Sucesso 201 / Erro 400 (destaca campos,
@@ -94,7 +94,7 @@ function Campo({ erro, children }) {
   );
 }
 
-export default function LeadCaptureForm({ origem = 'landing', campanhaId }) {
+export default function LeadCaptureForm({ origem = 'landing' }) {
   const idBase = useId();
   const [form, setForm] = useState(FORM_INICIAL);
   const [estado, setEstado] = useState('inicial'); // inicial | carregando | sucesso | erro400 | erro409 | erro500
@@ -160,7 +160,6 @@ export default function LeadCaptureForm({ origem = 'landing', campanhaId }) {
     incluirSePreenchido(payload, 'estado', form.estado);
     incluirSePreenchido(payload, 'cidade', form.cidade);
     incluirSePreenchido(payload.interesse, 'mensagem', form.mensagem);
-    if (campanhaId) payload.interesse.campanha_id = campanhaId;
 
     if (fisica) {
       payload.dados_fisica = {

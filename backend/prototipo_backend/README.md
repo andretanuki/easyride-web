@@ -9,7 +9,13 @@ Certifique-se de ter o [Python 3.10+](https://www.python.org/downloads/) instala
 
 Siga estas instruções para configurar o back-end no seu computador. Isso é necessário para que o Front-end consiga testar as requisições na máquina local.
 
-### 1. Criar o Ambiente Virtual (.venv)
+### 1. Criar o Ambiente Virtual (.venv) — **obrigatório**
+Um venv dedicado não é apenas recomendado: é **obrigatório**. Uma instalação
+global de Python com versões diferentes das fixadas no `requirements.txt`
+(ex.: Django 5.x global vs. Django 6.0.6 exigido) não gera nenhum erro visível
+ao rodar o servidor, mas pode produzir diferenças sutis de comportamento —
+sempre crie e ative o venv antes de instalar as dependências.
+
 Abra o terminal na raiz deste projeto e rode:
 ```bash
 # No Windows
