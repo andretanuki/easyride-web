@@ -19,7 +19,7 @@ Antes de rodar os testes, certifique-se de que o ambiente está preparado confor
 
 ### Rodar toda a suíte
 
-A partir da pasta `backend/prototipo-bd-api/`, execute:
+A partir da pasta `backend/prototipo_backend/`, execute:
 
 ```bash
 python manage.py test
@@ -28,7 +28,7 @@ python manage.py test
 Saída esperada (resumo):
 
 ```
-Ran 56 tests in 0.196s
+Ran 98 tests in 1.9s
 
 OK
 ```
@@ -90,17 +90,23 @@ Todos os testes vivem em `EasyRide/tests.py` e estão organizados em classes por
 | `CriarLeadJuridicaServiceTest` | Service `criar_lead` para Pessoa Jurídica | Service |
 | `AtualizarStatusLeadTest` | Service `atualizar_status_lead` | Service |
 | `LeadAPITest` | Endpoints `GET`/`POST /api/leads/` | Integração HTTP |
+| `LeadThrottleAPITest` | Rate limit do `POST /api/leads/` (5/min → 429) | Integração HTTP |
 | `AtualizarStatusLeadAPITest` | Endpoint `PATCH /api/leads/{id}/status/` | Integração HTTP |
+| `PessoaAPITest` | Endpoint `GET /api/pessoas/` (restrito a staff) | Integração HTTP |
 | `ModeloAPITest` | Endpoints de Modelos (CRUD) | Integração HTTP |
 | `EstatisticasAPITest` | Endpoint `GET /api/leads/estatisticas/` | Integração HTTP |
+| `BeneficioAPITest` | Endpoint `GET /api/beneficios/` + cache | Integração HTTP |
+| `DepoimentoAPITest` | Endpoint `GET /api/depoimentos/` + cache | Integração HTTP |
+| `FaqAPITest` | Endpoint `GET /api/faq/` + cache | Integração HTTP |
+| `InteresseAdminExportTest` | Ação de exportação CSV no Django Admin | Admin |
 
 ### Cobertura por área
 
 - **Validação de dígito verificador** (CPF e CNPJ): formato sem máscara, com máscara, vazio, tamanho incorreto, sequências repetidas, DV errado
-- **Códigos HTTP do contrato da API**: 200 (consulta), 201 (criação), 400 (validação), 404 (não encontrado), 409 (conflito de e-mail)
+- **Códigos HTTP do contrato da API**: 200 (consulta), 201 (criação), 400 (validação), 401 (rotas restritas a staff), 404 (não encontrado), 409 (conflito de e-mail, inclusive com capitalização diferente), 429 (throttle de 5/min no POST de leads)
 - **Validações de payload**: aceite de termos obrigatório, `modelo_id` existente, `tipo_pessoa` exige sub-objeto correto, `choices` (perfil, tipo_instituicao, origem) respeitados
 - **Persistência**: lead criado realmente aparece em `Pessoa`, `PessoaFisica`/`PessoaJuridica` e `Interesse`
-- **Formato de resposta**: estrutura aninhada com `pessoa`/`modelo`, formato de erro `{ "campo": ..., "mensagem": ... }`
+- **Formato de resposta**: estrutura aninhada com `pessoa`/`modelo`, erro 400 no formato hierárquico nativo do DRF (Contrato v3.0 §6)
 
 ---
 
@@ -151,7 +157,7 @@ Verifique se o `reverse('nome-da-rota')` está usando o `basename` correto defin
 
 ### Teste falha por causa de throttling
 
-Os testes de criação de lead usam `LeadThrottle` (5 req/min). Se você criar muitos leads em uma classe de teste, pode encontrar `429 Too Many Requests`. Solução: use `APITestCase` (já em uso), que isola o cache de throttle entre testes.
+O `POST /api/leads/` tem rate limit real de 5 req/min por IP (`throttle_scope = 'leads'` na `LeadViewSet`). O histórico do throttle vive no cache, que o Django **não** limpa entre testes — qualquer classe que crie leads via API precisa de `cache.clear()` no `setUp` (padrão já adotado em `LeadAPITest` e `LeadThrottleAPITest`), e um único método de teste não pode fazer mais de 5 POSTs de lead.
 
 ---
 
@@ -167,6 +173,6 @@ Os testes de criação de lead usam `LeadThrottle` (5 req/min). Se você criar m
 
 ## Métricas Atuais
 
-- **Total de testes:** 56
-- **Tempo de execução:** ~0,2 s
+- **Total de testes:** 98
+- **Tempo de execução:** ~2 s
 - **Última execução verificada:** todos passando (`OK`)

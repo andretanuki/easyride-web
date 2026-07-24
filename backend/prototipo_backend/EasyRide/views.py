@@ -84,17 +84,6 @@ class ModeloViewSet(viewsets.ModelViewSet):
         return selectors.listar_modelos()
 
 
-# Throttle de Leads
-
-class LeadThrottle(ScopedRateThrottle):
-    """Throttle específico para endpoints de captação de leads.
-
-    Limita a 5 requisições por minuto por IP para prevenir
-    spam e abuso nos formulários públicos.
-    """
-    scope = 'leads'
-
-
 # LeadViewSet — endpoint central de leads (/api/leads/)
 
 class LeadViewSet(viewsets.GenericViewSet,
@@ -114,10 +103,16 @@ class LeadViewSet(viewsets.GenericViewSet,
     ordering_fields = ['data_hora', 'status_lead']
     ordering = ['-data_hora']
 
+    # ScopedRateThrottle lê o scope deste atributo da VIEW (não de um
+    # atributo `scope` na classe do throttle). Taxa configurada em
+    # settings.REST_FRAMEWORK['DEFAULT_THROTTLE_RATES']['leads'] (5/minuto
+    # por IP), para prevenir spam e abuso no formulário público.
+    throttle_scope = 'leads'
+
     def get_throttles(self):
         """Aplica throttle apenas na ação de criação."""
         if self.action == 'create':
-            return [LeadThrottle()]
+            return [ScopedRateThrottle()]
         return []
 
     def get_permissions(self):

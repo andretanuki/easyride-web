@@ -4,6 +4,8 @@ Cobertura: models, services, selectors e endpoints da API.
 Todos os testes de lead usam o novo payload aninhado (LeadSerializer).
 """
 
+import itertools
+
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -145,6 +147,28 @@ class ModeloModelTest(TestCase):
 # ──────────────────────────────────────────────────────────────
 # Helpers compartilhados nos testes de service e API
 # ──────────────────────────────────────────────────────────────
+
+_contador_cpf = itertools.count()
+
+
+def _gerar_cpf_valido():
+    """Gera um CPF com dígito verificador correto e único por chamada.
+
+    PessoaFisica.cpf tem unique=True (e strings vazias também colidem no
+    UNIQUE do SQLite), então testes que criam vários leads físicos em loop
+    precisam de um CPF novo a cada iteração.
+    """
+    n = next(_contador_cpf)
+    base = [int(d) for d in f'{100000000 + n:09d}']
+
+    def _dv(digitos, pesos):
+        resto = sum(d * p for d, p in zip(digitos, pesos)) % 11
+        return 0 if resto < 2 else 11 - resto
+
+    dv1 = _dv(base, list(range(10, 1, -1)))
+    dv2 = _dv(base + [dv1], list(range(11, 1, -1)))
+    return ''.join(map(str, base + [dv1, dv2]))
+
 
 def _dados_lead_fisica(modelo_pk, **overrides):
     """Retorna um dicionário aninhado válido para lead de Pessoa Física."""
@@ -331,6 +355,10 @@ class LeadAPITest(APITestCase):
     """Testes de integração para o endpoint unificado de leads (POST /api/leads/)."""
 
     def setUp(self):
+        # O throttle de leads (5/min por IP) conta requisições no cache,
+        # que o Django não limpa entre testes — sem isto, os POSTs se
+        # acumulam entre métodos e a suíte passa a receber 429.
+        cache.clear()
         self.modelo = Modelo.objects.create(
             nome_modelo='Power Lite', marca='Quickie', motorizada=True
         )
@@ -573,6 +601,69 @@ class LeadAPITest(APITestCase):
         url_detalhe = reverse('lead-detail', args=[99999])
         response = self.client.get(url_detalhe)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    # ── Normalização de e-mail ────────────────────────────────
+
+    def test_criar_lead_email_capitalizacao_diferente_retorna_409(self):
+        """E-mail é normalizado para minúsculas: capitalizações diferentes
+        do mesmo endereço colidem como lead duplicado (409), em vez de
+        criarem duas Pessoas distintas."""
+        Pessoa.objects.create(nome='Existente', email='carlos@email.com')
+        payload = _dados_lead_fisica(self.modelo.pk)
+        payload['email'] = 'CARLOS@Email.com'
+        response = self.client.post(self.url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
+        self.assertEqual(Pessoa.objects.filter(nome='Existente').count(), 1)
+
+    def test_email_e_normalizado_para_minusculas_ao_persistir(self):
+        payload = _dados_lead_fisica(self.modelo.pk)
+        payload['email'] = 'MAIUSCULO@Email.com'
+        response = self.client.post(self.url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(Pessoa.objects.filter(email='maiusculo@email.com').exists())
+
+
+# ──────────────────────────────────────────────────────────────
+# Testes do Throttle de Criação de Leads (5/min por IP)
+# ──────────────────────────────────────────────────────────────
+
+class LeadThrottleAPITest(APITestCase):
+    """Prova que o rate limit do POST /api/leads/ está ativo em execução.
+
+    Regressão do item 6 da auditoria (testes/relatorio/): o throttle
+    existia no código mas era inoperante, porque o scope estava na classe
+    do throttle e não em LeadViewSet.throttle_scope, que é o atributo que
+    ScopedRateThrottle realmente lê.
+    """
+
+    def setUp(self):
+        cache.clear()
+        self.modelo = Modelo.objects.create(
+            nome_modelo='Throttle Model', marca='Marca', motorizada=True
+        )
+        self.url = reverse('lead-list')
+
+    def test_sexta_requisicao_no_mesmo_minuto_retorna_429(self):
+        for i in range(5):
+            payload = _dados_lead_fisica(self.modelo.pk)
+            payload['email'] = f'throttle-{i}@email.com'
+            payload['dados_fisica']['cpf'] = _gerar_cpf_valido()
+            response = self.client.post(self.url, payload, format='json')
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        payload = _dados_lead_fisica(self.modelo.pk)
+        payload['email'] = 'throttle-6@email.com'
+        response = self.client.post(self.url, payload, format='json')
+        self.assertEqual(response.status_code, status.HTTP_429_TOO_MANY_REQUESTS)
+        self.assertIn('detail', response.data)
+
+    def test_throttle_nao_se_aplica_a_leitura_de_leads(self):
+        """O throttle vale só para create; GETs de staff não são limitados
+        pelo scope 'leads' (seguem os limites globais anon/user)."""
+        self.client.force_authenticate(user=_criar_usuario_staff())
+        for _ in range(7):
+            response = self.client.get(self.url)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 # ──────────────────────────────────────────────────────────────

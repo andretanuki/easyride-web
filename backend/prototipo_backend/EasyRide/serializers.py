@@ -228,6 +228,12 @@ class LeadSerializer(serializers.Serializer):
     dados_juridica = DadosJuridicaSerializer(required=False)
     interesse = InteressePayloadSerializer()
 
+    def validate_email(self, value):
+        """Normaliza o e-mail para minúsculas: capitalizações diferentes do
+        mesmo endereço devem colidir no unique de Pessoa.email (409), e não
+        gerar leads duplicados."""
+        return value.strip().lower()
+
     def validate(self, attrs):
         """Validação cruzada: exige o sub-objeto correto para cada tipo_pessoa."""
         tipo = attrs.get('tipo_pessoa')
