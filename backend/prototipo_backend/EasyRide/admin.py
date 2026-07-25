@@ -52,6 +52,30 @@ class PessoaAdmin(admin.ModelAdmin):
     readonly_fields = ['criado_em', 'atualizado_em']
     inlines = [PessoaFisicaInline, PessoaJuridicaInline, InteresseInline]
 
+    def get_inline_instances(self, request, obj=None):
+        """Oculta o inline da especialização incompatível com a que já existe.
+
+        PF e PJ são OneToOne independentes de Pessoa: o banco não impede que
+        as duas coexistam. Sem este filtro, abrir uma Pessoa já cadastrada
+        como Jurídica exibe o bloco de Pessoa Física em branco, convidando a
+        criar um registro híbrido (que o CSV e o serializer não sabem
+        representar). Aqui só escondemos o formulário — a garantia real
+        depende de constraint no modelo/banco.
+        """
+        instances = super().get_inline_instances(request, obj)
+
+        if obj is None:
+            return instances
+
+        tem_fisica = PessoaFisica.objects.filter(pessoa=obj).exists()
+        tem_juridica = PessoaJuridica.objects.filter(pessoa=obj).exists()
+
+        if not (tem_fisica or tem_juridica):
+            return instances
+
+        ocultar = PessoaJuridicaInline if tem_fisica else PessoaFisicaInline
+        return [i for i in instances if not isinstance(i, ocultar)]
+
     @admin.display(description='Tipo')
     def tipo_pessoa(self, obj):
         tipos = []
