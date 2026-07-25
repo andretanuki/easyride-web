@@ -297,3 +297,43 @@ flex-direction:column;
 }
 
 }
+.form-box h2{
+font-size:38px;
+text-align:center;
+color:#0f172a;
+margin-bottom:10px;
+}
+
+.form-box p{
+text-align:center;
+color:#64748b;
+margin-bottom:30px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+form label{
+font-weight:600;
+color:#374151;
+font-size:14px;
+}
+
+.btn-voz{
+background:#2563eb;
+color:white;
+padding:12px 20px;
+border:none;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+}
+
+.btn-voz:hover{
+background:#1d4ed8;
+}
