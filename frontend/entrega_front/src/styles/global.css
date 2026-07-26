@@ -1,0 +1,379 @@
+/* ============================================================
+   EasyRide — estilos globais
+   Identidade visual baseada na landing de referência:
+   https://flaviaa666.github.io/easyride-landing-page/
+   Regras do Guia_de_Estilos_e_Regras_de_Acessibilidade_WCAG:
+   fonte Inter, corpo >= 16px, contraste >= 4.5:1
+   ============================================================ */
+
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --dark: #0f172a;
+  --dark-alt: #1a2e4a;
+  --muted: #475569; /* contraste 4.5:1+ sobre branco (o #64748b da referência fica abaixo) */
+  --success: #16a34a; /* verde dos botões de formulário, escurecido p/ contraste AA */
+  --bg: #ffffff;
+  --bg-soft: #f8fafc;
+  --bg-alt: #f4f8ff;
+  --border: #e5e7eb;
+  --border-input: #d1d5db;
+  --footer-bg: #08142d;
+  --erro: #b91c1c;
+
+  /* Tokens de animação */
+  --ease-fluida: cubic-bezier(0.22, 1, 0.36, 1); /* saída expressiva, pouso macio */
+  --ease-suave: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-rapida: 0.2s;
+  --dur-media: 0.35s;
+  --sombra-card: 0 5px 20px rgba(0, 0, 0, 0.05);
+  --sombra-card-hover: 0 14px 34px rgba(15, 23, 42, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  /* Âncoras usam rolagem animada em JS (utils/rolagem.js); o
+     scroll-padding cobre a rolagem nativa por foco (Tab em campos),
+     evitando label cortado sob o cabeçalho fixo */
+  scroll-padding-top: 7rem;
+}
+
+body {
+  background: var(--bg);
+  color: var(--dark);
+  font-size: 1rem; /* 16px mínimo (WCAG) — escala com a AccessibilityToolbar */
+  line-height: 1.6;
+}
+
+/* Alternância de alto contraste acontece com fusão suave de cores */
+body,
+section,
+header,
+footer,
+nav {
+  transition:
+    background-color 0.35s var(--ease-suave),
+    color 0.35s var(--ease-suave);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Foco visível em todos os elementos interativos (navegação por Tab) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Em controles redondos o anel de foco acompanha o círculo */
+input[type='radio']:focus-visible {
+  border-radius: 50%;
+}
+
+/* Link "pular para o conteúdo" (leitores de tela / teclado) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  z-index: 300;
+  border-radius: 0 0 12px 0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.container {
+  width: 90%;
+  /* rem (não px): o teto de largura cresce junto com a fonte da
+     AccessibilityToolbar, dando mais espaço real ao conteúdo em vez de
+     só espremê-lo dentro de um limite fixo */
+  max-width: 75rem;
+  margin: auto;
+}
+section {
+  padding: 5.5rem 0;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-title span {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.section-title h2 {
+  font-size: 2.6rem;
+  margin-top: 0.6rem;
+}
+
+/* Botões padrão (CTAButton) — sobem no hover, afundam no clique */
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  /* O botão nunca quebra o próprio texto em duas linhas — se faltar
+     espaço, é o container (flex-wrap) que deve mover o botão inteiro
+     para a linha seguinte, não deformar o botão por dentro */
+  white-space: nowrap;
+  transition:
+    transform var(--dur-rapida) var(--ease-fluida),
+    box-shadow var(--dur-media) var(--ease-fluida),
+    background-color var(--dur-rapida) var(--ease-suave),
+    color var(--dur-rapida) var(--ease-suave);
+  will-change: transform;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  background: var(--bg-alt);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Animação de entrada (fade-in) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.7s var(--ease-fluida) both;
+}
+
+/* Reveal-on-scroll global (utils/reveal.js adiciona .reveal-auto/.visivel) */
+.reveal-auto {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s var(--ease-fluida),
+    transform 0.7s var(--ease-fluida);
+}
+
+.reveal-auto.visivel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cards ganham vida no hover (sobem e a sombra aprofunda) */
+.step,
+.stat-card,
+.audience-card,
+.benefit-card,
+.feature-card,
+.faq-item {
+  transition:
+    transform var(--dur-media) var(--ease-fluida),
+    box-shadow var(--dur-media) var(--ease-fluida),
+    opacity 0.7s var(--ease-fluida);
+}
+
+.step:hover,
+.stat-card:hover,
+.audience-card:hover,
+.benefit-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-card-hover);
+}
+
+/* .reveal-auto + hover: o transform do hover vence após revelado */
+.reveal-auto.visivel:hover {
+  transform: translateY(-6px);
+}
+
+.reveal-auto.visivel.section-title:hover,
+.reveal-auto.visivel.faq-item:hover,
+.reveal-auto.visivel.faq-busca:hover,
+.reveal-auto.visivel.form-box:hover,
+.reveal-auto.visivel.impact-text:hover,
+.reveal-auto.visivel.testimonial-card:hover {
+  transform: translateY(0); /* blocos de leitura não "pulam" */
+}
+
+/* Destaque do elemento sendo lido pelo leitor por hover */
+.sendo-lido {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 3px;
+  border-radius: 6px;
+  transition: outline-color var(--dur-rapida) var(--ease-suave);
+}
+
+html.alto-contraste .sendo-lido {
+  outline-color: #fff !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Skeleton de carregamento */
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.skeleton {
+  background: var(--border);
+  border-radius: 15px;
+  animation: shimmer 1.4s ease-in-out infinite;
+  min-height: 7.5rem;
+}
+
+/* Conteúdo apenas para leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   MODO ALTO CONTRASTE (AccessibilityToolbar)
+   Guia: fundo preto, letras amarelas
+   ============================================================ */
+/* Cobertura UNIVERSAL: nenhum elemento (nem pseudo-elemento) pode restar
+   com fundo claro ou texto escuro — inclui gradientes e sombras */
+html.alto-contraste,
+html.alto-contraste body,
+html.alto-contraste *,
+html.alto-contraste *::before,
+html.alto-contraste *::after {
+  background-color: #000 !important;
+  background-image: none !important;
+  color: #ffee00 !important;
+  box-shadow: none !important;
+}
+
+html.alto-contraste :is(a, button, input, select, textarea) {
+  border: 2px solid #ffee00 !important;
+}
+
+/* Cards e painéis mantêm o desenho pelo contorno */
+html.alto-contraste :is(.audience-card,
+    .stat-card,
+    .step,
+    .feature-card,
+    .benefit-card,
+    .testimonial-card,
+    .faq-item,
+    .form-box,
+    .subgrupo,
+    .hero-fallback,
+    .acessibilidade-painel,
+    .leitor-legenda,
+    .tipo-pessoa label) {
+  border: 2px solid #ffee00 !important;
+}
+
+html.alto-contraste img {
+  filter: grayscale(100%) contrast(1.2);
+}
+
+/* Elementos cujo "preenchimento" é a própria informação */
+html.alto-contraste nav a::after {
+  background-color: #ffee00 !important;
+}
+
+html.alto-contraste .indicador.ativo {
+  background-color: #ffee00 !important;
+}
+
+html.alto-contraste input[type='checkbox'],
+html.alto-contraste input[type='radio'] {
+  accent-color: #ffee00;
+  border: none !important;
+}
+
+html.alto-contraste .spinner {
+  border: 3px solid rgba(255, 238, 0, 0.35) !important;
+  border-top-color: #ffee00 !important;
+}
+
+html.alto-contraste a:focus-visible,
+html.alto-contraste button:focus-visible,
+html.alto-contraste input:focus-visible,
+html.alto-contraste select:focus-visible,
+html.alto-contraste textarea:focus-visible,
+html.alto-contraste summary:focus-visible {
+  outline: 3px solid #fff;
+}

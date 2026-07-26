@@ -1,0 +1,166 @@
+.testimonials {
+  background: var(--bg-alt);
+}
+
+.carrossel {
+  position: relative;
+  max-width: 46rem;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carrossel-skeleton {
+  max-width: 46rem;
+  margin: auto;
+  min-height: 12rem;
+}
+
+.testimonial-card {
+  background: #fff;
+  border-radius: 25px;
+  padding: 2.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.testimonial-foto {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.testimonial-foto-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.testimonial-card blockquote p {
+  font-size: 1.125rem;
+  color: var(--dark);
+  margin-bottom: 1.25rem;
+}
+
+.testimonial-card figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.testimonial-estrelas {
+  color: #b45309;
+  letter-spacing: 0.2rem;
+}
+
+/* Deslize direcional a cada troca de depoimento */
+@keyframes desliza-frente {
+  from {
+    opacity: 0;
+    transform: translateX(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes desliza-tras {
+  from {
+    opacity: 0;
+    transform: translateX(-2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-depoimento.slide-frente {
+  animation: desliza-frente 0.5s var(--ease-fluida) both;
+}
+
+.slide-depoimento.slide-tras {
+  animation: desliza-tras 0.5s var(--ease-fluida) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-depoimento {
+    animation: none !important;
+  }
+}
+
+.carrossel-seta {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--dark);
+  line-height: 1;
+  transition:
+    background-color var(--dur-rapida) var(--ease-suave),
+    transform var(--dur-rapida) var(--ease-fluida),
+    box-shadow var(--dur-media) var(--ease-fluida);
+}
+
+.carrossel-seta:hover {
+  background: var(--bg-soft);
+  transform: scale(1.1);
+  box-shadow: var(--sombra-card);
+}
+
+.carrossel-seta:active {
+  transform: scale(0.95);
+}
+
+.carrossel-indicadores {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.indicador {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  border: 2px solid var(--primary);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition:
+    width 0.35s var(--ease-fluida),
+    background-color var(--dur-rapida) var(--ease-suave);
+}
+
+.indicador:hover {
+  background: rgba(37, 99, 235, 0.35);
+}
+
+/* O ponto ativo vira uma pílula — transição de largura fluida */
+.indicador.ativo {
+  background: var(--primary);
+  width: 2rem;
+}
+
+@media (max-width: 600px) {
+  .carrossel {
+    grid-template-columns: 1fr;
+  }
+
+  .carrossel-seta {
+    display: none; /* mobile navega por swipe e indicadores */
+  }
+}
