@@ -45,5 +45,5 @@ O site fica disponível em `http://localhost:3000/`. Mais detalhes em [`frontend
 ## Equipe
 - **André Luís** - Desenvolvedor Back-End - [GitHub](https://github.com/andretanuki) | [LinkedIn](https://www.linkedin.com/in/andretanuki/)
 - **Flávia Rocha** - Desenvolvedora Front-End - [GitHub](https://github.com/flaviaa666 ) | [LinkedIn](https://www.linkedin.com/in/flaviarochassls/)
-- **Flávia Sena** - Desenvolvedora Back-End - [GitHub]( a ser preenchido pela equipe) | [LinkedIn](a ser preenchido pela equipe)
+- **Flávia Sena** - Desenvolvedora Back-End - [GitHub](https://github.com/Flavia-Sena) | [LinkedIn](https://www.linkedin.com/in/fl%C3%A1via-sena-a462592b7/)
 - **Dafne Santos** - Desenvolvedora Front-End - [GitHub]( https://github.com/Dafnev5f) | [LinkedIn](a ser preenchido pela equipe)
