@@ -1,0 +1,46 @@
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(10rem, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.benefit-card {
+  background: var(--bg-soft);
+  padding: 1.875rem;
+  border-radius: 20px;
+}
+
+.benefit-icone {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.benefit-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.benefit-card p {
+  color: var(--muted);
+}
+
+.benefits-vazio {
+  text-align: center;
+  color: var(--muted);
+  font-size: 1.125rem;
+}
+
+/* Grade responsiva exigida pela arquitetura: 2 colunas mobile, 4 desktop */
+@media (max-width: 900px) {
+  .benefits-grid {
+    grid-template-columns: repeat(2, minmax(10rem, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
