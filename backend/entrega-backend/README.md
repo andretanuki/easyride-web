@@ -64,7 +64,7 @@ O servidor estará rodando em `http://127.0.0.1:8000/`.
 
 ## Rotas Disponíveis
 
-Para a documentação completa dos formatos JSON aceitos, consulte o documento `Atualizacao_Contrato_API.md` ou a documentação viva em `/api/docs/` (ver abaixo).
+Para a documentação completa dos formatos JSON aceitos, consulte o contrato vigente em [`docs/Atualizacao_Contrato_API_v4.0.pdf`](../../docs/Atualizacao_Contrato_API_v4.0.pdf) ou a documentação viva em `/api/docs/` (ver abaixo).
 
 * `POST /api/leads/` - Criação de novos leads (Requer payload com `tipo_pessoa` FISICA ou JURIDICA). Público.
 * `GET /api/leads/`, `GET /api/leads/{id}/`, `GET /api/leads/estatisticas/`, `PATCH /api/leads/{id}/status/` - Consulta e gestão de leads. Restrito a usuários staff.
@@ -92,11 +92,34 @@ Para um guia completo (rodar testes específicos, padrões de escrita, helpers e
 ---
 
 ## Acesso ao Painel Administrativo
-O Django gera um painel de administração automaticamente. Após rodar o comando `seed`, um superusuário de teste é criado (se estiver configurado no script), ou você pode criar o seu próprio:
+
+O Django gera um painel de administração automaticamente. O comando `seed` popula
+os dados de negócio, mas **não cria usuários** — crie o seu:
+
 ```bash
 python manage.py createsuperuser
 ```
+
 Acesse em: `http://127.0.0.1:8000/admin/`
+
+### Grupos de acesso (RBAC)
+
+Conforme a [Especificação do Painel Administrativo](../../docs/Especificacao_Painel_Admnistrativo_e_Dados_Teste.pdf),
+o painel usa três grupos, criados automaticamente pela migration `0007_grupos_rbac`:
+
+| Grupo | Acesso |
+|---|---|
+| `Administrador (TI)` | Acesso total (via `is_superuser`) |
+| `Equipe de Vendas` | Gestão de leads e pessoas |
+| `Auditoria / Instrutores` | Somente leitura |
+
+Para atribuir um grupo a um usuário, use a tela *Usuários* do Admin. Se as
+permissões dos grupos ficarem dessincronizadas (por exemplo, após adicionar
+models novos), rode:
+
+```bash
+python manage.py sincronizar_grupos
+```
 
 ---
 
@@ -126,4 +149,12 @@ O projeto já está preparado para deploy no Render: `gunicorn` + `whitenoise` (
 
 ### Ponto em aberto
 
-O `EasyRide/` (esta pasta) está sendo desenvolvido **fora do controle do git**, por decisão explícita da equipe. Como o Render normalmente faz deploy observando um repositório git remoto, falta decidir **como este código chega até o Render** antes do deploy real acontecer — por exemplo, portando o conteúdo de volta para dentro do repositório oficial `easyride-web/backend/prototipo-bd-api/`, ou outra estratégia a definir. A preparação de código acima (dependências, configurações, `build.sh`, `render.yaml`) não depende dessa decisão, mas o deploy em si sim.
+O código já está versionado no repositório oficial (`easyride-web/backend/entrega-backend/`),
+então o Render consegue observá-lo diretamente. O que falta é o **deploy em si**:
+provisionar o serviço e o banco Postgres no Render, definir as variáveis da tabela
+acima e executar os passos de pós-deploy. A preparação de código (dependências,
+configurações, `build.sh`, `render.yaml`) está concluída.
+
+Nota: o `render.yaml` aponta `buildCommand: "./build.sh"` relativo à raiz do
+serviço — ao criar o serviço no Render, configure o *Root Directory* como
+`backend/entrega-backend`.
