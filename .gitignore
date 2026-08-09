@@ -218,3 +218,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ---------------------------------------------------------------------------
+# Front-end (Node / Vite)
+# ---------------------------------------------------------------------------
+node_modules/
+.vite/
+*.local
+
+# Lockfile vazio gerado por `npm install` acidental na raiz — o lockfile real
+# do projeto é frontend/package-lock.json, que deve continuar versionado.
+/package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.*
+!.env.example

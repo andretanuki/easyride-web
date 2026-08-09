@@ -4,22 +4,22 @@ Landing page de captação de leads da EasyRide, construída em **React + Vite (
 
 - `docs/Arquitetura_Componentes_React_v3.0.pdf` — árvore de componentes, props e estados
 - `docs/Atualizacao_Contrato_API_v4.0.pdf` — contrato vigente da API
-- `docs/wireframe/Guia_de_Estilos_e_Regras_de_Acessibilidade_WCAG.pdf` — Inter, corpo ≥16px, contraste ≥4.5:1, ARIA
+- `docs/Guia_de_Estilos_e_Regras_de_Acessibilidade_WCAG.pdf` — Inter, corpo ≥16px, contraste ≥4.5:1, ARIA
 - Base visual: https://flaviaa666.github.io/easyride-landing-page/
 
 ## Como rodar
 
-Pré-requisito: backend rodando em `http://127.0.0.1:8000` (ver [`backend/entrega-backend/README.md`](../../backend/entrega-backend/README.md)), a partir da raiz do repositório:
+Pré-requisito: backend rodando em `http://127.0.0.1:8000` (ver [`backend/README.md`](../backend/README.md)), a partir da raiz do repositório:
 
 ```bash
-cd backend/entrega-backend
+cd backend
 python manage.py migrate && python manage.py seed && python manage.py runserver
 ```
 
 Front-end (porta **3000**, já liberada no CORS do backend), em outro terminal e também a partir da raiz do repositório:
 
 ```bash
-cd frontend/entrega_front
+cd frontend
 npm install
 cp .env.example .env   # ajuste VITE_API_BASE_URL se necessário
 npm run dev            # http://localhost:3000

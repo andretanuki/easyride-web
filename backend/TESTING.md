@@ -19,7 +19,7 @@ Antes de rodar os testes, certifique-se de que o ambiente está preparado confor
 
 ### Rodar toda a suíte
 
-A partir da pasta `backend/prototipo_backend/`, execute:
+A partir da pasta `backend/`, execute:
 
 ```bash
 python manage.py test
@@ -113,7 +113,7 @@ Todos os testes vivem em `EasyRide/tests.py` e estão organizados em classes por
 - **Validações de payload**: aceite de termos obrigatório, `modelo_id` existente, `tipo_pessoa` exige sub-objeto correto, `choices` (perfil, tipo_instituicao, origem) respeitados
 - **Persistência**: lead criado realmente aparece em `Pessoa`, `PessoaFisica`/`PessoaJuridica` e `Interesse`
 - **Formato de resposta**: estrutura aninhada com `pessoa`/`modelo`, erro 400 no formato hierárquico nativo do DRF (Contrato v3.0 §6)
-- **Painel administrativo**: filtros laterais, busca por CPF/CNPJ/telefone, exportação CSV (header, delimitador, BOM), paginação de 25, matriz RBAC dos 3 grupos e massa de teste do item 8 — ver [`docs/Conformidade_Painel_Administrativo.md`](../../docs/Conformidade_Painel_Administrativo.md)
+- **Painel administrativo**: filtros laterais, busca por CPF/CNPJ/telefone, exportação CSV (header, delimitador, BOM), paginação de 25, matriz RBAC dos 3 grupos e massa de teste do item 8 — ver [`docs/Conformidade_Painel_Administrativo.pdf`](../docs/Conformidade_Painel_Administrativo.pdf)
 
 ---
 

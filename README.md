@@ -23,22 +23,25 @@ e gestão de leads do Programa Piloto.
 - **Front-end:** React, Vite, HTML5, CSS3
 - **Back-end:** Python, Django, Django REST Framework
 
-## Onde está o código da entrega
+## Estrutura do repositório
 
-O repositório guarda as versões intermediárias do projeto. **A entrega da
-Fase 3 é composta por estas duas pastas:**
+```
+easyride-web/
+├── backend/     # API Django/DRF (projeto core + app EasyRide)
+├── frontend/    # Landing page React + Vite
+└── docs/        # Contratos de API, arquitetura, DER e guia de acessibilidade
+```
 
-| Camada | Pasta da entrega |
+| Pasta | Conteúdo |
 |---|---|
-| Back-end (API Django/DRF) | [`backend/entrega-backend/`](backend/entrega-backend/) |
-| Front-end (landing page React) | [`frontend/entrega_front/`](frontend/entrega_front/) |
+| [`backend/`](backend/) | API Django/DRF: captação de leads, conteúdo da landing e painel administrativo com RBAC |
+| [`frontend/`](frontend/) | Landing page React + Vite que consome a API |
+| [`docs/`](docs/) | Documentação do projeto (ver [Documentação](#documentação)) |
 
-As demais pastas são etapas anteriores, mantidas apenas como registro do
-percurso e **não fazem parte da versão final**:
-
-- `backend/prototipo-bd-api/` - protótipo de banco de dados da Fase 2
-- `backend/prototipo_backend/` - protótipo funcional da API, anterior ao RBAC do Admin
-- `frontend/experimento_front/` - experimento de front-end anterior ao ajuste final
+> As versões intermediárias do projeto (protótipo de banco da Fase 2, protótipo
+> da API anterior ao RBAC e o experimento de front-end) foram consolidadas nesta
+> estrutura. Elas continuam acessíveis pelo histórico, na tag
+> [`entrega-fase3`](../../releases/tag/entrega-fase3).
 
 ## Como rodar o projeto
 
@@ -47,7 +50,7 @@ O projeto tem duas partes que precisam rodar ao mesmo tempo: o back-end (a API q
 ### 1. Ligar o back-end
 
 ```bash
-cd backend/entrega-backend
+cd backend
 python -m venv .venv
 source .venv/bin/activate      # no Windows: .venv\Scripts\activate
 pip install -r requirements.txt
@@ -59,7 +62,7 @@ python manage.py runserver
 A API fica disponível em `http://127.0.0.1:8000/`, com documentação navegável
 (Swagger UI) em `http://127.0.0.1:8000/api/docs/` e o painel administrativo em
 `http://127.0.0.1:8000/admin/`. Instruções mais detalhadas estão em
-[`backend/entrega-backend/README.md`](backend/entrega-backend/README.md).
+[`backend/README.md`](backend/README.md).
 
 Para rodar a suíte de testes automatizados:
 
@@ -68,20 +71,20 @@ python manage.py test
 ```
 
 O roteiro completo de testes está em
-[`backend/entrega-backend/TESTING.md`](backend/entrega-backend/TESTING.md).
+[`backend/TESTING.md`](backend/TESTING.md).
 
 ### 2. Ligar o front-end
 
 Em outro terminal, com o back-end já rodando:
 
 ```bash
-cd frontend/entrega_front
+cd frontend
 npm install
 cp .env.example .env
 npm run dev
 ```
 
-O site fica disponível em `http://localhost:3000/`. Mais detalhes em [`frontend/entrega_front/README.md`](frontend/entrega_front/README.md).
+O site fica disponível em `http://localhost:3000/`. Mais detalhes em [`frontend/README.md`](frontend/README.md).
 
 ## Documentação
 
@@ -90,13 +93,15 @@ Os documentos do projeto estão em [`docs/`](docs/):
 | Documento | Conteúdo |
 |---|---|
 | `Atualizacao_Contrato_API_v4.0.pdf` | **Contrato da API vigente** |
-| `Especificacao_Contrato_API_v3.0_deprecated.pdf` | Contrato anterior, formalmente depreciado |
 | `Arquitetura_Componentes_React_v3.0.pdf` | Árvore de componentes, props e estados do front-end |
 | `Especificacao_Painel_Admnistrativo_e_Dados_Teste.pdf` | Especificação do painel administrativo |
 | `Conformidade_Painel_Administrativo.pdf` | Registro de conformidade do painel com a especificação |
-| `der/` | Diagrama Entidade-Relacionamento (completo e simplificado) |
-| `dicionario-dados/` | Dicionário de dados do back-end (CSV e XLSX) |
-| `wireframe/` | Guia de estilos e regras de acessibilidade WCAG |
+| `Guia_de_Estilos_e_Regras_de_Acessibilidade_WCAG.pdf` | Guia de estilos e regras de acessibilidade WCAG |
+| `banco-dados/` | DER (completo e simplificado) e dicionário de dados do back-end (CSV e XLSX) |
+
+O contrato de API v3.0, formalmente depreciado pelo v4.0, foi removido da pasta
+e permanece disponível no histórico, na tag
+[`entrega-fase3`](../../releases/tag/entrega-fase3).
 
 ## Equipe da Fase 3
 

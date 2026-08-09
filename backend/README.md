@@ -64,7 +64,7 @@ O servidor estará rodando em `http://127.0.0.1:8000/`.
 
 ## Rotas Disponíveis
 
-Para a documentação completa dos formatos JSON aceitos, consulte o contrato vigente em [`docs/Atualizacao_Contrato_API_v4.0.pdf`](../../docs/Atualizacao_Contrato_API_v4.0.pdf) ou a documentação viva em `/api/docs/` (ver abaixo).
+Para a documentação completa dos formatos JSON aceitos, consulte o contrato vigente em [`docs/Atualizacao_Contrato_API_v4.0.pdf`](../docs/Atualizacao_Contrato_API_v4.0.pdf) ou a documentação viva em `/api/docs/` (ver abaixo).
 
 * `POST /api/leads/` - Criação de novos leads (Requer payload com `tipo_pessoa` FISICA ou JURIDICA). Público.
 * `GET /api/leads/`, `GET /api/leads/{id}/`, `GET /api/leads/estatisticas/`, `PATCH /api/leads/{id}/status/` - Consulta e gestão de leads. Restrito a usuários staff.
@@ -104,7 +104,7 @@ Acesse em: `http://127.0.0.1:8000/admin/`
 
 ### Grupos de acesso (RBAC)
 
-Conforme a [Especificação do Painel Administrativo](../../docs/Especificacao_Painel_Admnistrativo_e_Dados_Teste.pdf),
+Conforme a [Especificação do Painel Administrativo](../docs/Especificacao_Painel_Admnistrativo_e_Dados_Teste.pdf),
 o painel usa três grupos, criados automaticamente pela migration `0007_grupos_rbac`:
 
 | Grupo | Acesso |
@@ -149,7 +149,7 @@ O projeto já está preparado para deploy no Render: `gunicorn` + `whitenoise` (
 
 ### Ponto em aberto
 
-O código já está versionado no repositório oficial (`easyride-web/backend/entrega-backend/`),
+O código já está versionado no repositório oficial (`easyride-web/backend/`),
 então o Render consegue observá-lo diretamente. O que falta é o **deploy em si**:
 provisionar o serviço e o banco Postgres no Render, definir as variáveis da tabela
 acima e executar os passos de pós-deploy. A preparação de código (dependências,
@@ -157,4 +157,4 @@ configurações, `build.sh`, `render.yaml`) está concluída.
 
 Nota: o `render.yaml` aponta `buildCommand: "./build.sh"` relativo à raiz do
 serviço — ao criar o serviço no Render, configure o *Root Directory* como
-`backend/entrega-backend`.
+`backend`.
