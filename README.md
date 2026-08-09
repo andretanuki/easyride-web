@@ -1,19 +1,31 @@
-# EasyRide — Plataforma Web Institucional
+# EasyRide - Plataforma Web Institucional
 
-Desafio Tecnológico da Fase 3 do Programa Bolsa Futuro Digital
-Capacita 04 – Conecta e Capacita | CEPEDI
-
-## Sobre o projeto
 Plataforma web integrada para apresentação institucional da EasyRide
 e gestão de leads do Programa Piloto.
 
+> **Sobre este repositório**
+>
+> Projeto desenvolvido em equipe no Desafio Tecnológico da Fase 3 do Programa
+> Bolsa Futuro Digital (Capacita 04 - Conecta e Capacita | CEPEDI).
+>
+> Este é um repositório pessoal, mantido para fins de portfólio com autorização
+> da administração do programa. O repositório oficial da entrega é
+> [easyride-g1lag/easyride-web](https://github.com/easyride-g1lag/easyride-web).
+>
+> O histórico de commits da equipe foi preservado integralmente, com a autoria
+> original de cada pessoa. A tag
+> [`entrega-fase3`](../../releases/tag/entrega-fase3) marca o encerramento do
+> trabalho coletivo — commits posteriores a ela são de desenvolvimento
+> individual.
+
 ## Tecnologias
-- **Frontend:** React, Vite, HTML5, CSS3
-- **Backend:** Python, Django, Django REST Framework
+
+- **Front-end:** React, Vite, HTML5, CSS3
+- **Back-end:** Python, Django, Django REST Framework
 
 ## Onde está o código da entrega
 
-O repositório guarda as versões intermediárias do projeto. **A entrega atual da
+O repositório guarda as versões intermediárias do projeto. **A entrega da
 Fase 3 é composta por estas duas pastas:**
 
 | Camada | Pasta da entrega |
@@ -22,11 +34,11 @@ Fase 3 é composta por estas duas pastas:**
 | Front-end (landing page React) | [`frontend/entrega_front/`](frontend/entrega_front/) |
 
 As demais pastas são etapas anteriores, mantidas apenas como registro do
-percurso e **não devem ser usadas para avaliação ou execução**:
+percurso e **não fazem parte da versão final**:
 
-- `backend/prototipo-bd-api/` — protótipo de banco de dados da Fase 2
-- `backend/prototipo_backend/` — protótipo funcional da API, anterior ao RBAC do Admin
-- `frontend/experimento_front/` — experimento de front-end anterior ao ajuste final
+- `backend/prototipo-bd-api/` - protótipo de banco de dados da Fase 2
+- `backend/prototipo_backend/` - protótipo funcional da API, anterior ao RBAC do Admin
+- `frontend/experimento_front/` - experimento de front-end anterior ao ajuste final
 
 ## Como rodar o projeto
 
@@ -86,8 +98,13 @@ Os documentos do projeto estão em [`docs/`](docs/):
 | `dicionario-dados/` | Dicionário de dados do back-end (CSV e XLSX) |
 | `wireframe/` | Guia de estilos e regras de acessibilidade WCAG |
 
-## Equipe
+## Equipe da Fase 3
+
 - **André Luís** - Desenvolvedor Back-End - [GitHub](https://github.com/andretanuki) | [LinkedIn](https://www.linkedin.com/in/andretanuki/)
-- **Flávia Rocha** - Desenvolvedora Front-End - [GitHub](https://github.com/flaviaa666 ) | [LinkedIn](https://www.linkedin.com/in/flaviarochassls/)
+- **Flávia Rocha** - Desenvolvedora Front-End - [GitHub](https://github.com/flaviaa666) | [LinkedIn](https://www.linkedin.com/in/flaviarochassls/)
 - **Flávia Sena** - Desenvolvedora Back-End - [GitHub](https://github.com/Flavia-Sena) | [LinkedIn](https://www.linkedin.com/in/fl%C3%A1via-sena-a462592b7/)
-- **Dafne Santos** - Desenvolvedora Front-End - [GitHub]( https://github.com/Dafnev5f)
+- **Dafne Santos** - Desenvolvedora Front-End - [GitHub](https://github.com/Dafnev5f)
+
+O projeto foi construído de forma colaborativa pela equipe acima. Este
+repositório é mantido por **André Luís**, que contribuiu em back-end e
+front-end ao longo de toda a entrega.
